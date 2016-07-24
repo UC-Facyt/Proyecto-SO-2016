@@ -8,7 +8,9 @@
 #ifndef SERVICIO_TECNICO_H
 #define SERVICIO_TECNICO_H
 
+#ifndef UNIT_TESTING
 #include "cajeras.h"
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,7 +33,7 @@ void join_TI();
 /* Funciones locales de nuestro modulo */
 static void * servicioTecnico(void *);
 static int    nosVolvimosLocos();
-static int    llamarACorpoelec(void *);
+static int    llamarACorpoelec();
 
 // Variable para controlar si el modulo esta encendido o apagado.
 static sem_t estado;
@@ -44,7 +46,7 @@ static int luz = 1;
 void init_TI()
 {
 	srand(time(NULL));
-	pthread_create(&TI,NULL,servicioTecnico,NULL);
+	pthread_create(&TI, NULL, servicioTecnico, NULL);
 	sem_init(&reporteD, 0, 1);
 	sem_init(&reporteS, 0, 1);
 	sem_init(&estado, 0, 1);
@@ -52,7 +54,7 @@ void init_TI()
 
 void join_TI()
 {
-	pthread_join(TI, null);
+	pthread_join(TI, NULL);
 }
 
 static void * servicioTecnico(void *data)
@@ -66,6 +68,7 @@ static void * servicioTecnico(void *data)
 			cuando se cierre el mercado
 		*/
 		sem_wait(&estado);
+			printf(" -------------- \n");
 			/* Si no hay luz.. */
 			if (!luz)
 			{
@@ -77,15 +80,13 @@ static void * servicioTecnico(void *data)
 			}
 			else
 			{
-				if (nosVolvimosLocos())
+				if (!nosVolvimosLocos())
 				{
 					printf("Hubo un fallo de energia! Se prendio la plantas\n");
 					apagar_mitad_cajas(); // Esta funcion es del modulo de cajeras
 				}
 			}
-			
 
-			
 		sem_post(&estado);
 	}
 }

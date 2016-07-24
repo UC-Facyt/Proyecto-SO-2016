@@ -19,5 +19,5 @@ clean:
 	@echo "Borrado!"
 
 love:
-	@echo "Not war?"
+	@echo "Not Warcraft?"
 	

@@ -21,7 +21,7 @@ void init_estantes();
 void join_estantes();
 
 
-//Funcion para que la cajera se comunique 
+//Funcion para que la cajera se comunique
 //con este modulo
 
 int Comunicacion_Cajera_Estante(int numero, float cantidad);
@@ -41,12 +41,13 @@ pthread_t h,i,j,k;
 //Variable de estado para activar o desactivar todos los estantes
 int Estado=0;
 
+int uno=1,dos=2,tres=3,cuatro=4;
 void init_estantes(){
-	int uno=1,dos=2,tres=3,cuatro=4;
-	pthread_create(&h, NULL, _Reponedor,&uno);
-	pthread_create(&i, NULL, _Reponedor,&dos);
-	pthread_create(&j, NULL, _Reponedor,&tres);
-	pthread_create(&k, NULL, _Reponedor,&cuatro);
+	
+	pthread_create(&h, NULL, _Reponedor,(void *)&uno);
+	pthread_create(&i, NULL, _Reponedor,(void *)&dos);
+	pthread_create(&j, NULL, _Reponedor,(void *)&tres);
+	pthread_create(&k, NULL, _Reponedor,(void *)&cuatro);
 }
 
 void join_estantes(){
@@ -87,7 +88,7 @@ int Comunicacion_Cajera_Estante(int numero, float cantidad)
 {
 	if(anaqueles[numero-1]>=cantidad)
 		anaqueles[numero-1]-=cantidad;
-	
+
 	return anaqueles[numero-1]>=cantidad;
 }
 
@@ -95,5 +96,5 @@ int Comunicacion_Cajera_Estante(int numero, float cantidad)
 void Activar_Reponedores(int est){
 	Estado=est;
 }
-#endif
 
+#endif

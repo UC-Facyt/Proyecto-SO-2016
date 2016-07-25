@@ -5,28 +5,59 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define N 1000
-/*COSAS QUE FALTAN: MIRAR ABAJO POR FAVOR...*/
-/* es_regulado() necesitamos saber que modulo verifica si un producto es regulado " NO SE QUIEN LO HACE"*/
+
+#define N 		1000
+#define TRUE 	1
+#define FALSE	0
+
+/* COSAS QUE FALTAN: MIRAR ABAJO POR FAVOR...	*/
+/* es_regulado() necesitamos saber que modulo verifica si un producto es regulado " NO SE QUIEN LO HACE"	*/
 /* DEBO SABER SI HUBO ALGUNA INTERRUPCION O NINGUNA EN LA SEMANA*/
+
+/*****************************/ 
+
+static sem_t estado;
+
+pthread_t merc;
+
+void* init_MERCADEO() {
+
+	pthread_create(&merc, NULL, departamentoMercadeo, NULL);
+
+}
+
+static void* departamentoMercadeo(void *data) {
+
+	while(TRUE) {
+
+		/* Monkeys making coffee 	*/
+		/* until the days end    	*/
+		/* Make the day report 		*/
+
+		/* If is the last week day 	*/
+		/* make the week report 	*/
+	}
+}
+
+/*****************************/ 
 
 /******************* " POSIBLES "ESTRUCTURAS QUE UTILIZAREMOS EN EL MODULO DE MERCADEO***********************************/
 typedef struct
 {
-        int id; // identificador unico para el producto.......
-        int cantidad; // CANTIDAD DE COMPRADA DEL PRODUCTO...
-        float prob = 100; // PROBABILIDAD DE VENTA
-}producto;
+    int id; // identificador unico para el producto.......
+    int cantidad; // CANTIDAD DE COMPRADA DEL PRODUCTO...
+    float prob = 100; // PROBABILIDAD DE VENTA
+} producto;
 typedef struct
 {
-        int dia; // DIA DE LA SEMANA..
-        int cant_prod_vendidos; // CANTIDAD DE PRODUCTOS VENDIDOS EN EL DIA...
-        int prod_mas_vendido; // PRODUCTO QUE MAS SE VENDIO EN EL DIA...
-        int prod_menos_vendido; // PRODUCTO QUE MENOS SE VENDIO EN EL DIA....
-        int interrupciones; // INDICA SI HUBO O NO INTERRUPCION EN EL DIA (1= SI  0=NO)...
-        cajera *ventas_cajeras[5]; // APUNTA A LA ESTRUCTURA DE LAS CAJERAS PARA SABER LA INFORMACION DE LAS MISMAS..
-        producto proba[9];
-}report; // ESTRUCTURA QUE UTILIZAREMOS PARA ESCRIBIR LOS DATOS DEL REPORTE DIARIO Y SEMANAL....
+	int dia; // DIA DE LA SEMANA..
+	int cant_prod_vendidos; // CANTIDAD DE PRODUCTOS VENDIDOS EN EL DIA...
+	int prod_mas_vendido; // PRODUCTO QUE MAS SE VENDIO EN EL DIA...
+	int prod_menos_vendido; // PRODUCTO QUE MENOS SE VENDIO EN EL DIA....
+	int interrupciones; // INDICA SI HUBO O NO INTERRUPCION EN EL DIA (1= SI  0=NO)...
+	cajera *ventas_cajeras[5]; // APUNTA A LA ESTRUCTURA DE LAS CAJERAS PARA SABER LA INFORMACION DE LAS MISMAS..
+	producto proba[9];
+} report; // ESTRUCTURA QUE UTILIZAREMOS PARA ESCRIBIR LOS DATOS DEL REPORTE DIARIO Y SEMANAL....
 
 typedef struct
 {
@@ -55,43 +86,43 @@ void reporteS(*reportes reporte[cont1]);
 /**** Simulacion de los productos vendidos en un dia con la informacion que pasa cajeras.h  ****/
 void registro(int prod, float cant, int id_cajera)
 {
-    /*FALTA SABER QUE CAJERA HIZO LA VENTA DEL PRODUCTO, PARA ASI TAMBIEN TENER CONOCIMIENTO SI EL PRODUCTO ES REGULADO O NO*/
-    int j=0;
-    int band 0;
-    while(band != 1)
-    {
-               if(lista_ventas_cajera[j].cajera_id == id_cajera) // verifico si la cajera ya esta en el sistema para no volverla a anotar; solo anotar los productos vendidos por ella...
-               {
-                    lista_ventas_cajera[j].producto_vendido[cont2].id = prod;
-                    lista_ventas_cajera[j].producto_vendido[cont2].cantidad = cant; 
-                    band = 1;                  
-               }
-               else
-               {
-                   if(lista_ventas_cajera[j].cajera_id == -1)
-                   {
-                       lista_ventas_cajera[j].cajera_id = id_cajera;
-                       lista_ventas_cajera[j].producto_vendido[cont2].id = prod;
-                       band = 1;
-                   }
-               }
-               j++;
+	/*FALTA SABER QUE CAJERA HIZO LA VENTA DEL PRODUCTO, PARA ASI TAMBIEN TENER CONOCIMIENTO SI EL PRODUCTO ES REGULADO O NO*/
+	int j=0;
+	int band 0;
+	while(band != 1)
+	{
+		if(lista_ventas_cajera[j].cajera_id == id_cajera) // verifico si la cajera ya esta en el sistema para no volverla a anotar; solo anotar los productos vendidos por ella...
+		{
+		    lista_ventas_cajera[j].producto_vendido[cont2].id = prod;
+		    lista_ventas_cajera[j].producto_vendido[cont2].cantidad = cant; 
+		    band = 1;                  
+		}
+		else
+		{
+		   if(lista_ventas_cajera[j].cajera_id == -1)
+		   {
+		       lista_ventas_cajera[j].cajera_id = id_cajera;
+		       lista_ventas_cajera[j].producto_vendido[cont2].id = prod;
+		       band = 1;
+		   }
+		}
+		j++;
     }
     int i=0;
     while(band != 1)
     {
-         if(reportes[cont1].ventas_cajeras[j]->producto_vendido[i].id == prod) // guardo el reporte diario por cajera, para luego usar estos datos para el reporte semanal....
-         {
-             reportes[cont1].ventas_cajeras[j]->producto_vendido[i].cantidad = reportes[cont1].ventas_cajeras[j]->producto_vendido[i].cantidad + cant;                                                               
-             band = 1; 
-         }
-         else
-         {
-             reportes[cont1].ventas_cajeras[j]->producto_vendido[i].id = prod;
-             reportes[cont1].ventas_cajeras[j]->producto_vendido[i].cantidad = cant;
-             band = 1;   
-         }
-         i++;
+		if(reportes[cont1].ventas_cajeras[j]->producto_vendido[i].id == prod) // guardo el reporte diario por cajera, para luego usar estos datos para el reporte semanal....
+		{
+			reportes[cont1].ventas_cajeras[j]->producto_vendido[i].cantidad = reportes[cont1].ventas_cajeras[j]->producto_vendido[i].cantidad + cant;                                                               
+			band = 1; 
+		}
+		else
+		{
+			reportes[cont1].ventas_cajeras[j]->producto_vendido[i].id = prod;
+			reportes[cont1].ventas_cajeras[j]->producto_vendido[i].cantidad = cant;
+			band = 1;   
+		}
+		i++;
     }
     cont2++;
 }
@@ -109,12 +140,11 @@ void reporteD(*reportes reporte[cont1]) // recibe la lista de productos vendidos
              
     for (i = 0; i < 10; i++) 
     {
-        prod[i]=0;
+    	prod[i]=0;
     }
     i=0;
     while(lista_ventas[j].producto_vendido[i].id !=-1) // mientras haya productos en la lista compara y suma
     {
-        
         prod[lista_ventas[j].producto_vendido[i].id]+=lista_ventas[j].producto_vendido[i].cantidad; // va sumando las cantidades de cada producto y guarda el total
         i++;
     }

@@ -52,9 +52,8 @@ static pthread_t merc;
 static sem_t estado, done;
 
 void init_MERCADEO() {
-
 	sem_init(&estado, 0, 0);
-	sem_init(&done, 0, 0);
+	sem_init(&done	, 0, 0);
 	pthread_create(&merc, NULL, departamentoMercadeo, NULL);
 }
 
@@ -66,6 +65,8 @@ void despertarMercadeo() {
 	sem_post(&estado);
 	sem_wait(&done);
 }
+
+static void init_
 
 static void* departamentoMercadeo(void *data) {
 

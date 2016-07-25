@@ -149,6 +149,7 @@ void inc_cola_pref()
 void apagar_mitad_cajas()
 {
     printf("Apagandooo \n");
+    
     sem_wait( &func[0] );
     printf("Apagando 1\n ");
     sem_wait( &func[1] );

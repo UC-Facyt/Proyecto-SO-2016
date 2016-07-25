@@ -42,7 +42,6 @@ pthread_t TI;
 static sem_t reporteD, reporteS;
 static int luz = 1;
 
-
 void init_TI()
 {
 	srand(time(NULL));

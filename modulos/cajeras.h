@@ -106,8 +106,7 @@ void init_cajeras( int n_cat, float lim_nor, float lim_reg )
         vect[index] = index;
         printf("INICIALIZANDO %d\n", index);
         sem_init( &func[index], 0, 1);
-
-        sem_init( &enc[index], 0, 1);
+        sem_init( &enc[index] , 0, 1);
     }
 
     sem_init( &clientes_pref, 0, 0 );
@@ -170,12 +169,9 @@ void apagar_mitad_cajas()
         printf("Valor semaforo %d = %d\n", i, value);
     }
 
-
     sem_wait( &enc[0] );
 
     printf("Apagando 1\n ");
-
-
 
     sem_wait( &enc[1] );
     sem_wait( &enc[2] );

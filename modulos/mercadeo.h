@@ -17,12 +17,27 @@
 /*****************************/ 
 
 typedef struct {
-	
-}
+	int id;
+	int cant;
+	int regulado;
+	float prob;
+} product_merc;
 
+typedef struct {
+	int cant_produc;
+	int id_mas_vendido;
+	int id_menos_vendido;
+	int fallo_elec;
+} report_merc;
+
+typedef struct {
+	product_merc ventas[N];
+} cajera_merc;
+
+static report_merc[8] reports;
+
+static pthread_t merc;
 static sem_t estado, done;
-
-pthread_t merc;
 
 void init_MERCADEO() {
 
@@ -47,18 +62,20 @@ static void* departamentoMercadeo(void *data) {
 		/* Monkeys making coffee 	*/
 		/* until the days end    	*/
 		sem_wait(&estado);
-
 			/* Make the day report 		*/
-
-			
 
 			/* Aqui deberia haber una forma de ver que dia de semana es */
 
 			/* If is the last week day 	*/
 			/* make the week report 	*/
-
 		sem_post(&done);
 	}
+}
+
+/* Registra datos del cajero */
+void registro(int prod, float cant, int id_cajera) {
+
+	
 }
 
 /*****************************/ 
@@ -109,7 +126,7 @@ void reporteS(*reportes reporte[cont1]);
 void registro(int prod, float cant, int id_cajera)
 {
 	/*FALTA SABER QUE CAJERA HIZO LA VENTA DEL PRODUCTO, PARA ASI TAMBIEN TENER CONOCIMIENTO SI EL PRODUCTO ES REGULADO O NO*/
-	int j=0;
+	int j = 0;
 	int band 0;
 	while(band != 1)
 	{

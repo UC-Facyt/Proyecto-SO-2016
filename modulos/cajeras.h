@@ -9,11 +9,16 @@
 #ifndef CAJERAS_H
 #define CAJERAS_H
 
-#ifndef UNIT_TESTING
+/*#ifndef UNIT_TESTING
 #include "estantes.h"
 #include "mercadeo.h"
 #include "supervisor.h"
-#endif
+#endif*/
+ //fakie
+
+#include "../fakies/fake_supervisor.h"
+#include "../fakies/fake_estantes.h"
+#include "servicio_tecnico.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,26 +26,9 @@
 #include <semaphore.h>
 
 //Puse estas mientras desorrollan los demas modulos
-int es_regulado( int prod )
-{
-    if(rand() % 2 == 0) return (1);
-    else return (0);
-}
-
 void registrar( int a, float b, int idcajera )
 {
 }
-
-//Puse estas mientras desorrollan los demas modulos
-// int es_regulado( int prod )
-// {
-//     if(rand()%2==0) return (1);
-//     else return (0);
-// }
-//
-// void registrar( int a, float b, int idcajera )
-// {
-// }
 
 /*NOTAS
 
@@ -173,9 +161,9 @@ void apagar_mitad_cajas()
 
     printf("Apagando 1\n ");
 
+    sem_wait( &enc[0] );
     sem_wait( &enc[1] );
     sem_wait( &enc[2] );
-    printf("Semaforitos Apagados \n");
 }
 
 void encender_mitad_cajas()
@@ -188,19 +176,12 @@ void encender_mitad_cajas()
 void cerrar_cajas()
 {
     sem_wait( &enc[0] );
-    printf("apague 0\n");
     sem_wait( &enc[1] );
-    printf("apague 1\n");
     sem_wait( &enc[2] );
-    printf("apague 2\n");
     sem_wait( &enc[3] );
-    printf("apague 3\n");
     sem_wait( &enc[4] );
-    printf("apague 4\n");
     sem_wait( &enc[5] );
-    printf("apague 5\n");
     sem_wait( &enc[6] );
-    printf("apague 6\n");
 }
 
 void abrir_cajas()
@@ -242,7 +223,7 @@ static void *caja_normal( void *arg )
 
             if ( !es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
             {
-                printf("-- -- Venta en caja normal %d \n", i);
+                printf("-- Venta en caja normal %d \n", i);
                 // sleep(1);
                 registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
                 nclientes++;
@@ -281,7 +262,7 @@ static void *caja_regulados( void *arg )
 
             if( es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
             {
-                printf("Venta en caja regulado %d\n", i );
+                printf("-- Venta en caja regulado %d\n", i );
                 // sleep(1);
                 registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
                 nclientes++;
@@ -322,7 +303,7 @@ static void *caja_pref( void *arg )
             if( !es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
             {
 
-                printf("Venta en caja Pref\n");
+                printf("-- Venta en caja Pref %d\n", i);
                 // sleep(1);
                 registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
                 nclientes++;

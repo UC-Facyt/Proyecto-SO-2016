@@ -85,7 +85,6 @@ static void * _Supervisor(void *arg)
 			listCierre = false; 
 			_postGuardia(); // Signal a los Guardias de Seguridad
 		}
-		getchar();
 	}
 }
 

@@ -8,9 +8,9 @@
 #ifndef SERVICIO_TECNICO_H
 #define SERVICIO_TECNICO_H
 
-#ifndef UNIT_TESTING
+
 #include "cajeras.h"
-#endif
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,6 +34,9 @@ void join_TI();
 static void * servicioTecnico(void *);
 static int    nosVolvimosLocos();
 static int    llamarACorpoelec();
+
+void apagar_mitad_cajas();
+void encender_mitad_cajas();
 
 // Variable para controlar si el modulo esta encendido o apagado.
 static sem_t estado;
@@ -69,6 +72,7 @@ static void * servicioTecnico(void *data)
 		sem_wait(&estado);
 		
 			printf(" -------------- \n");
+
 			/* Si no hay luz.. */
 			if (!luz)
 			{
@@ -93,7 +97,7 @@ static void * servicioTecnico(void *data)
 /* Simula si se va la luz */
 static int nosVolvimosLocos()
 {
-	if (rand() < RAND_MAX * 0.1)
+	if (rand() < RAND_MAX * 0.05)
 		luz = 0;
 	return luz;
 }
@@ -101,7 +105,7 @@ static int nosVolvimosLocos()
 /* Simula que llegue la luz antes de irse */
 static int llamarACorpoelec()
 {
-	if (rand() < RAND_MAX * 0.4)
+	if (rand() < RAND_MAX * 0.8)
 		luz = 1;
 	return luz;
 }

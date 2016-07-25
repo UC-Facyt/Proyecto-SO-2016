@@ -8,9 +8,9 @@
 #ifndef SERVICIO_TECNICO_H
 #define SERVICIO_TECNICO_H
 
-#ifndef UNIT_TESTING
+
 #include "cajeras.h"
-#endif
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,6 +34,9 @@ void join_TI();
 static void * servicioTecnico(void *);
 static int    nosVolvimosLocos();
 static int    llamarACorpoelec();
+
+void apagar_mitad_cajas();
+void encender_mitad_cajas();
 
 // Variable para controlar si el modulo esta encendido o apagado.
 static sem_t estado;

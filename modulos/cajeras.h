@@ -9,11 +9,16 @@
 #ifndef CAJERAS_H
 #define CAJERAS_H
 
-#ifndef UNIT_TESTING
+/*#ifndef UNIT_TESTING
 #include "estantes.h"
 #include "mercadeo.h"
 #include "supervisor.h"
-#endif
+#endif*/
+ //fakie
+
+#include "../fakies/fake_supervisor.h"
+#include "../fakies/fake_estantes.h"
+#include "servicio_tecnico.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,9 +33,9 @@
 //     else return (0);
 // }
 //
-// void registrar( int a, float b, int idcajera )
-// {
-// }
+void registrar( int a, float b, int idcajera )
+{
+}
 
 /*NOTAS
 

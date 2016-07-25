@@ -45,10 +45,10 @@ void inicamion()
 	for(i = 0;i<5;i++)
 	{
 		v[i] = i;
-		sem_init(&camiones[i].enviado,0,0);
-		sem_init(&camiones[i].casa,0,1);
-		sem_init(&camiones[i].llego,0,0);
-		sem_init(&camiones[i].descarga,0,0);
+		sem_init(&camiones[i].enviado,1,0);
+		sem_init(&camiones[i].casa,1,1);
+		sem_init(&camiones[i].llego,1,0);
+		sem_init(&camiones[i].descarga,1,0);
 		pthread_create(&camionito[i],NULL,camionthread,(void *)&v[i]);
 	}
 }
@@ -75,7 +75,7 @@ void *camionthread(void *arg)
 
 void waitllego(int camionnn)
 {
-	sem_wait(&camiones[camionnn].enviado);
+	sem_wait(&camiones[camionnn].llego);
 }
 
 void postsemdesc(int camionnn)

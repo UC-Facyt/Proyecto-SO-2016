@@ -28,10 +28,11 @@ void *fakifaki()
 	while(1)
 	{
 		i = 0;
-		while(!(trywaitcasa(i) + 1))
+		while(!(trywaitcasa(i%6) + 1))
 		{
 			i++;
 		}
+		i = i % 6;
 		postenviado(i);
 		printf("Proveedor: enviado camion %d con productos\n",i);
 		waitllego(i);

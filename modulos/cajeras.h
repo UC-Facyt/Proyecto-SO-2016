@@ -161,22 +161,22 @@ void apagar_mitad_cajas()
     }
 
 
-    sem_wait( &func[0] );
+    sem_wait( &enc[0] );
 
     printf("Apagando 1\n ");
 
 
 
-    sem_wait( &func[1] );
-    sem_wait( &func[2] );
+    sem_wait( &enc[1] );
+    sem_wait( &enc[2] );
     printf("Semaforitos Apagados \n");
 }
 
 void encender_mitad_cajas()
 {
-    sem_post( &func[0] );
-    sem_post( &func[1] );
-    sem_post( &func[2] );
+    sem_post( &enc[0] );
+    sem_post( &enc[1] );
+    sem_post( &enc[2] );
 }
 
 void cerrar_cajas()

@@ -21,7 +21,7 @@ void init_estantes();
 void join_estantes();
 
 
-//Funcion para que la cajera se comunique 
+//Funcion para que la cajera se comunique
 //con este modulo
 
 int Comunicacion_Cajera_Estante(int numero, float cantidad);
@@ -87,7 +87,7 @@ int Comunicacion_Cajera_Estante(int numero, float cantidad)
 {
 	if(anaqueles[numero-1]>=cantidad)
 		anaqueles[numero-1]-=cantidad;
-	
+
 	return anaqueles[numero-1]>=cantidad;
 }
 
@@ -95,5 +95,5 @@ int Comunicacion_Cajera_Estante(int numero, float cantidad)
 void Activar_Reponedores(int est){
 	Estado=est;
 }
-#endif
 
+#endif

@@ -4,7 +4,6 @@
 #include <semaphore.h>
 
 
-
 void apagar_mitad_cajas() {
     printf("Cerrando la mitad de las cajas\n");
 }

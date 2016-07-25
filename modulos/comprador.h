@@ -22,7 +22,7 @@ int _hizoPedido();
 int _llenanCamiones();
 float _rubrosDeposito(int id);
 void _descargaDeposito(int pos, float cant);
-float 
+
 // Prototipos de Proveedores
 void _postProveedor();
 int _pedidoAceptado();
@@ -46,7 +46,7 @@ void _initComprador()
 	sem_init(&validez_pedido, 0, 0);
 	sem_init(&pedido_recibido, 0, 0);
 	sem_init(&conExito, 0, 0);
-	
+
 	// Creando procesos compradores (6)
 	for(i=0;i<6;i++)
 		pthread_create(&comp[i],NULL,_Comprador,&i);
@@ -58,7 +58,7 @@ void _initComprador()
 void * _Comprador(void *arg)
 {
 	int i;
-	int n = *((int*)arg); 
+	int n = *((int*)arg);
 	while(true)
 	{
 		// Seccion Crítica
@@ -69,13 +69,13 @@ void * _Comprador(void *arg)
 			printf("Comprador %d: Se llena el pedido\n", n+1);
 			_postProveedor(); // Signal a Proveedor
 			printf("Comprador %d: El comprador contacta al proveedor\n",n+1);
-			sem_wait(&validezPedido); // Espera la confirmacion 
+			sem_wait(&validezPedido); // Espera la confirmacion
 			printf("Comprador %d: Se verifica que el pedido haya sido aceptado\n",n+1);
 			sem_wait(&conExito); // Wait
 			if(_pedidoAceptado()) // Si el pedido fué aceptado
 			{
-				printf("Comprador %d: Pedido aceptado\n",n+1); 
-				_waitCamionEnviado(); 
+				printf("Comprador %d: Pedido aceptado\n",n+1);
+				_waitCamionEnviado();
 				printf("Comprador %d: Se espera a que los camiones lleguen\n",n+1);
 				for(i=0;i<5;i++)
 					if(!_edoCamion(i))
@@ -85,7 +85,7 @@ void * _Comprador(void *arg)
 						printf("Comprador %d: El camion %d llego\n",n+1,i+1);
 					}
 				printf("Comprador %d: Pedido recibido sin inconvenientes\n", n+1);
-				printf("Comprador %d: Camiones Recibidos\nDescargando Mercancia",n+1); 
+				printf("Comprador %d: Camiones Recibidos\nDescargando Mercancia",n+1);
 				sem_post(&pedidoRecibido);
 				for(i=0;i<N;i++) // Descargando los Camiones en los Depósitos
 					_descargaDeposito(i,_rubrosDeposito(i) + _rubrosTotal(i));

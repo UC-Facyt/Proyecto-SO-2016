@@ -86,7 +86,6 @@ static void * servicioTecnico(void *data)
 					apagar_mitad_cajas(); // Esta funcion es del modulo de cajeras
 				}
 			}
-
 		sem_post(&estado);
 	}
 }

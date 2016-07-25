@@ -8,6 +8,7 @@ DIR = bin
 BIN = $(DIR)/main
 
 all:	main.c
+	@mkdir -p bin
 	$(CC) $< -o $(BIN) $(FLAGS)
 	@echo "Done."
 

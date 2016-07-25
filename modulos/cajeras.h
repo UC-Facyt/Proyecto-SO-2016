@@ -219,7 +219,7 @@ static void *caja_normal( void *arg )
 
             if ( !es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
             {
-                printf("-- -- Venta en caja normal %d \n", i);
+                printf("-- Venta en caja normal %d \n", i);
                 // sleep(1);
                 registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
                 nclientes++;
@@ -258,7 +258,7 @@ static void *caja_regulados( void *arg )
 
             if( es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
             {
-                printf("Venta en caja regulado %d\n", i );
+                printf("-- Venta en caja regulado %d\n", i );
                 // sleep(1);
                 registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
                 nclientes++;
@@ -299,7 +299,7 @@ static void *caja_pref( void *arg )
             if( !es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
             {
 
-                printf("Venta en caja Pref\n");
+                printf("-- Venta en caja Pref %d\n", i);
                 // sleep(1);
                 registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
                 nclientes++;

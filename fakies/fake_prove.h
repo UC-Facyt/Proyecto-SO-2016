@@ -4,11 +4,11 @@
 #include <stdio.h>
 #include <semaphore.h>
 #include <pthread.h>
-#include "../../modulos/camion.h"
+#include "../modulos/camion.h"
 
 pthread_t fake_prove;
 
-void inittt();
+void initt();
 void *fakifaki();
 void clooose();
 

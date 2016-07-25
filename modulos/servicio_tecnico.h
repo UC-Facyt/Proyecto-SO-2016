@@ -71,7 +71,6 @@ static void * servicioTecnico(void *data)
 			cuando se cierre el mercado
 		*/
 		sem_wait(&estado);
-			printf(" -------------- \n");
 			/* Si no hay luz.. */
 			if (!luz)
 			{
@@ -96,7 +95,7 @@ static void * servicioTecnico(void *data)
 /* Simula si se va la luz */
 static int nosVolvimosLocos()
 {
-	if (rand() < RAND_MAX * 0.1)
+	if (rand() < RAND_MAX * 0.05)
 		luz = 0;
 	return luz;
 }
@@ -104,7 +103,7 @@ static int nosVolvimosLocos()
 /* Simula que llegue la luz antes de irse */
 static int llamarACorpoelec()
 {
-	if (rand() < RAND_MAX * 0.4)
+	if (rand() < RAND_MAX * 0.8)
 		luz = 1;
 	return luz;
 }

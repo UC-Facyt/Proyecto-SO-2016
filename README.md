@@ -9,6 +9,7 @@ Proyecto de Sistemas Operativos de Sincronizacion entre Procesos
     "servicio tecnico";
     "servicio tecnico" -> supervisor [weight=8];
     cajeras -> "servicio tecnico";
+    cajeras -> "mercadeo";
     supervisor -> proveedor;
     proveedor -> supervisor;
     supervisor -> guardia;

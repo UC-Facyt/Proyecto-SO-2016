@@ -1,21 +1,20 @@
+/* AUTORES:
+ * GONZALEZ FELIX
+ * RODRIGUEZ VIVIANA
+ * CANTERO CRISTIAN
+ * GONCALVES MARIANGELA
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
 #include "estantes.h"
 
-/*
-  AUTORES:
-  GONZALEZ FELIX
-  RODRIGUEZ VIVIANA
-  CANTERO CRISTIAN
-  GONCALVES MARIANGELA
-*/
-
 //Puse estas mientras desorrollan los demas modulos
 int es_regulado( int prod )
 {
-    if(rand()%2==0) return (1);
+    if(rand() % 2 == 0) return (1);
     else return (0);
 }
 

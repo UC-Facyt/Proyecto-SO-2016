@@ -157,24 +157,9 @@ void inc_cola_pref()
 //SERVICIO TECNICO
 void apagar_mitad_cajas()
 {
-    printf("Apagandooo \n");
-
-    int value, i;
-    for (i = 0; i < 3; i++) {
-        sem_getvalue(&func[i], &value);
-        printf("Valor semaforo %d = %d\n", i, value);
-    }
-
-
     sem_wait( &enc[0] );
-
-    printf("Apagando 1\n ");
-
-
-
     sem_wait( &enc[1] );
     sem_wait( &enc[2] );
-    printf("Semaforitos Apagados \n");
 }
 
 void encender_mitad_cajas()
@@ -187,19 +172,12 @@ void encender_mitad_cajas()
 void cerrar_cajas()
 {
     sem_wait( &enc[0] );
-    printf("apague 0\n");
     sem_wait( &enc[1] );
-    printf("apague 1\n");
     sem_wait( &enc[2] );
-    printf("apague 2\n");
     sem_wait( &enc[3] );
-    printf("apague 3\n");
     sem_wait( &enc[4] );
-    printf("apague 4\n");
     sem_wait( &enc[5] );
-    printf("apague 5\n");
     sem_wait( &enc[6] );
-    printf("apague 6\n");
 }
 
 void abrir_cajas()

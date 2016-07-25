@@ -59,12 +59,7 @@ static void* cliente_aleatorio(void *arg)
 
         if ( oneShot ) {
             printf("One Shot\n");
-
-
-            // cerrar_cajas();
-            // abrir_cajas();
             apagar_mitad_cajas();
-
             oneShot = 0;
         }
 

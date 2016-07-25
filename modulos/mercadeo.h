@@ -154,9 +154,9 @@ void reporteS(*reportes reporte[cont1])
             {
                 if(!es_regulado(reporte[i].ventas_cajeras[j].producto_vendido[t].id)) // debo saber si el producto es regulado o no, para sacar el total de productos regulados y no regulados vendidos por la cajera...
                 {
-                    reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados=
-                    reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados
-                    + reporte[i].ventas_cajeras[j].producto_vendido[t].cantidad;
+                    reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados =
+                    reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados +
+                    reporte[i].ventas_cajeras[j].producto_vendido[t].cantidad;
                 }
                 else
                 {

@@ -41,8 +41,9 @@ pthread_t h,i,j,k;
 //Variable de estado para activar o desactivar todos los estantes
 int Estado=0;
 
+int uno=1,dos=2,tres=3,cuatro=4;
 void init_estantes(){
-	int uno=1,dos=2,tres=3,cuatro=4;
+	
 	pthread_create(&h, NULL, _Reponedor,&uno);
 	pthread_create(&i, NULL, _Reponedor,&dos);
 	pthread_create(&j, NULL, _Reponedor,&tres);

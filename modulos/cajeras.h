@@ -59,7 +59,7 @@ static pthread_t especial;
 volatile static int N_CAT, LIM_NOR, LIM_REG;
 
 static sem_t clientes_pref, clientes_reg, clientes_normal, dar_clave, pedir_clave;
-sem_t func[7], permiso_normal;
+sem_t func[7], permiso_normal, enc[7];
 static int vect[7], index;
 
 /*PROCEDIMIENTOS DE CAJERAS*/
@@ -96,6 +96,8 @@ void init_cajeras( int n_cat, float lim_nor, float lim_reg )
         vect[index] = index;
         printf("INICIALIZANDO %d\n", index);
         sem_init( &func[index], 0, 1);
+
+        sem_init( &enc[index], 0, 1);
     }
 
     sem_init( &clientes_pref, 0, 0 );
@@ -179,24 +181,32 @@ void encender_mitad_cajas()
 
 void cerrar_cajas()
 {
-    sem_wait( &func[0] );
-    sem_wait( &func[1] );
-    sem_wait( &func[2] );
-    sem_wait( &func[3] );
-    sem_wait( &func[4] );
-    sem_wait( &func[5] );
-    sem_wait( &func[6] );
+    sem_wait( &enc[0] );
+    printf("apague 0\n");
+    sem_wait( &enc[1] );
+    printf("apague 1\n");
+    sem_wait( &enc[2] );
+    printf("apague 2\n");
+    sem_wait( &enc[3] );
+    printf("apague 3\n");
+    sem_wait( &enc[4] );
+    printf("apague 4\n");
+    sem_wait( &enc[5] );
+    printf("apague 5\n");
+    sem_wait( &enc[6] );
+    printf("apague 6\n");
 }
 
 void abrir_cajas()
 {
-    sem_post( &func[0] );
-    sem_post( &func[1] );
-    sem_post( &func[2] );
-    sem_post( &func[3] );
-    sem_post( &func[4] );
-    sem_post( &func[5] );
-    sem_post( &func[6] );
+    sem_post( &enc[0] );
+    sem_post( &enc[1] );
+    sem_post( &enc[2] );
+    sem_post( &enc[3] );
+    sem_post( &enc[4] );
+    sem_post( &enc[5] );
+    sem_post( &enc[6] );
+    printf("Estoy subiendo las barras\n");
 }
 
 //ESTANTES
@@ -216,6 +226,9 @@ static void *caja_normal( void *arg )
     float cant;
     while(1)
     {
+        sem_wait(&enc[i]);
+        sem_post(&enc[i]);
+
         sem_wait( &func[i] );
             sem_wait( &clientes_normal );
             prod = rand()%(N_CAT) + 1;
@@ -252,6 +265,9 @@ static void *caja_regulados( void *arg )
     float cant;
     while(1)
     {
+        sem_wait(&enc[i]);
+        sem_post(&enc[i]);
+
         sem_wait( &func[i] );
             sem_wait( &clientes_reg );
             prod = rand()%(N_CAT) + 1;
@@ -289,6 +305,9 @@ static void *caja_pref( void *arg )
     printf("Caja preferencial %d inicializada! \n", i);
     while(1)
     {
+        sem_wait(&enc[i]);
+        sem_post(&enc[i]);
+
         sem_wait( &func[i] );
             sem_wait( &clientes_pref );
             prod = rand()%(N_CAT) + 1;
@@ -324,6 +343,9 @@ static void *caja_especial( void *arg )
     printf("Caja especial %d inicializada! \n", i);
     while(1)
     {
+        sem_wait(&enc[i]);
+        sem_post(&enc[i]);
+
         sem_wait( &func[i] );
             sem_wait(&pedir_clave);
             sem_post(&dar_clave);

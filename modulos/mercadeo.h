@@ -16,6 +16,10 @@
 
 /*****************************/ 
 
+typedef struct {
+	
+}
+
 static sem_t estado, done;
 
 pthread_t merc;
@@ -39,12 +43,16 @@ void despertarMercadeo() {
 static void* departamentoMercadeo(void *data) {
 
 	while(TRUE) {
-
+		
+		/* Monkeys making coffee 	*/
+		/* until the days end    	*/
 		sem_wait(&estado);
-			
-			/* Monkeys making coffee 	*/
-			/* until the days end    	*/
+
 			/* Make the day report 		*/
+
+			
+
+			/* Aqui deberia haber una forma de ver que dia de semana es */
 
 			/* If is the last week day 	*/
 			/* make the week report 	*/
@@ -147,10 +155,11 @@ void reporteD(*reportes reporte[cont1]) // recibe la lista de productos vendidos
     int prod[10]; // arreglo para guardar la suma total de cada producto
     int max=0, min=999999;
     int pos_max, pos_min, total=0, total1=0;
-    int j =0;
+    int j = 0;
     int i = 0;
+
     if(cont1 == 7)
-             cont1 = 0;
+    	cont1 = 0;
              
     for (i = 0; i < 10; i++) 
     {
@@ -194,36 +203,34 @@ void reporteD(*reportes reporte[cont1]) // recibe la lista de productos vendidos
 }
 void reporteS(*reportes reporte[cont1])
 {
-     int i, z, t, j;
-     reporte[cont1-1].interrupcion = nosVolvimosLocos(); //verifico si hubo corte electrico...
-     z=0;
-     /*verifico por dia las ventas de los productos regulados o no, para hacer el reporte semanal */
-     for(i=0; i < 7; i++) // ciclo para moverme en el reporte por dia
-     {
-             j=0;
-             while(reportes[i].ventas_cajeras[i]->cajera_id != -1) // ciclo para moverme en las ventas que hicieron cada cajera....
-             {
-                t=0;
-                while(reporte[i].ventas_cajeras[j].producto_vendido[t].id != -1) // ciclo para saber y sumar los productos vendidos...
-                {
-                    if(!es_regulado(reporte[i].ventas_cajeras[j].producto_vendido[t].id)) // debo saber si el producto es regulado o no, para sacar el total de productos regulados y no regulados vendidos por la cajera...
-                    {
-                       reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados= reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados + reporte[i].ventas_cajeras[j].producto_vendido[t].cantidad;     
-                    }
-                    else
-                    {
-                       reporte[cont1].ventas_cajeras[z].cant_prod_regulados= reporte[cont1].ventas_cajeras[z].cant_prod_regulados + reporte[i].ventas_cajeras[j].producto_vendido[t].cantidad;
-                    }
-                    t++;
-                }
-                j++
-                                                                                                                   
-             }
-             z++;
-              
-     }
-     cont1 =0;
-          
+	int i, z, t, j;
+	reporte[cont1-1].interrupcion = nosVolvimosLocos(); //verifico si hubo corte electrico...
+	z=0;
+	/*verifico por dia las ventas de los productos regulados o no, para hacer el reporte semanal */
+	for(i=0; i < 7; i++) // ciclo para moverme en el reporte por dia
+	{
+		j=0;
+		while(reportes[i].ventas_cajeras[i]->cajera_id != -1) // ciclo para moverme en las ventas que hicieron cada cajera....
+		{
+			t=0;
+			while(reporte[i].ventas_cajeras[j].producto_vendido[t].id != -1) // ciclo para saber y sumar los productos vendidos...
+			{
+				if(!es_regulado(reporte[i].ventas_cajeras[j].producto_vendido[t].id)) // debo saber si el producto es regulado o no, para sacar el total de productos regulados y no regulados vendidos por la cajera...
+				{
+					reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados= reporte[cont1].ventas_cajeras[z].cant_prod_no_regulados + reporte[i].ventas_cajeras[j].producto_vendido[t].cantidad;     
+				}
+				else
+				{
+					reporte[cont1].ventas_cajeras[z].cant_prod_regulados= reporte[cont1].ventas_cajeras[z].cant_prod_regulados + reporte[i].ventas_cajeras[j].producto_vendido[t].cantidad;
+				}
+					t++;
+				}
+				j++
+			}
+
+			z++;
+	}
+	cont1 =0;      
 }
 
 #endif

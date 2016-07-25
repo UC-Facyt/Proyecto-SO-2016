@@ -41,7 +41,7 @@ static void* departamentoMercadeo(void *data) {
 	while(TRUE) {
 
 		sem_wait(&estado);
-		
+			
 			/* Monkeys making coffee 	*/
 			/* until the days end    	*/
 			/* Make the day report 		*/

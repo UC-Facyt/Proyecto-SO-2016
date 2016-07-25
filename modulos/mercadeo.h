@@ -90,50 +90,33 @@ static void* departamentoMercadeo(void *data) {
 /* Registra datos del cajero */
 void registro(int prod, float cant, int id_caja) {
 
-	int i, cant_m, cant_p;
-	int cant_prod, max, min;
+	int i, acum;
 
 	/* Deberia ser int cant */
-	cant_prod = (reports[dia].caja[id_caja].ventas[prod].cant += (int) cant);
-	
+	reports[dia].caja[id_caja].ventas[prod].cant += (int) cant
+	reports[dia].cant_produc += (int) cant;
+
 	/* 3 y 4 son cajas de productos regulados */
 	if (id_caja == 3 || id_caja == 4) {
 		reports[dia].caja[id_caja].ventas[prod].regulado = TRUE;
 	}
 
-	max = reports[dia].id_mas_vendido;
-	min = reports[dia].id_menos_vendido;
-
-	for(i=0, cant_p; i < MAX_C; i++) {
+	/* Suma la cantidad de productos de todas las cajas */
+	for(i=0, acum = 0; i < MAX_C; i++) {
 		cant_p += reports[dia].caja[i].ventas[prod];
 	}
 
-	for(i=0, acum = 0; i < MAX_C; i++) {
-		acum += reports[dia].caja[i].ventas[max];
+	/* Verifica si el producto es el mas vendido ahora */
+	if(acum > reports[id].cant_mas_vendido) {
+		reports[id].id_mas_vendido = prod;
+		reports[id].cant_mas_vendido = acum;
 	}
 
-	if(acum )
-	reports[id].id_mas_vendido 
-
-	for(i=0; acum = 0; i < MAX_C; i++) {
-		acum += reports[dia].caja[i].ventas[min];
+	/* Verifica si el producto es el menos vendido ahora */
+	if(acum < reports[id].cant_menos_vendido) {
+		reports[id].id_menos_vendido = prod;
+		reports[id].cant_menos_vendido = acum;
 	}
-
-	if(reports[dia].caja[])
-	if(reports[dia].id_mas_vendido > reports[dia].caja[id_caja].ventas[prod].cant) {
-
-	}
-
-	int id;
-	int cant;
-	int regulado;
-	float prob;
-
-	int cant_produc;
-	int id_mas_vendido;
-	int id_menos_vendido;
-	int fallo_elec;				
-	cajera_merc caja[MAX_C];
 }
 
 /*****************************/ 

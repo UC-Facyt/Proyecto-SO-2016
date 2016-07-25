@@ -4,7 +4,7 @@
 	* Geraldine Herrera
 	* Jordan Herrera
 	* */
-	
+
 #ifndef _PROVEEDOR_H_
 #define _PROVEEDOR_H_
 
@@ -25,7 +25,7 @@ typedef struct
 }pedidoR;
 
 // Categoría, 0 Hortaliza,1 Bebida,2 Charcutería,3 Carnicería,4 Pescadería,5 Enlatado,6 Producto de Limpieza,7 Producto de Aseo Personal,8 Perfume.
-typedef pedidoR categoria[N]; // Cada campo indica la cantidad en kg/unidad del rubro. 
+typedef pedidoR categoria[N]; // Cada campo indica la cantidad en kg/unidad del rubro.
 
 pthread_t prov;
 // Semáforos
@@ -66,6 +66,10 @@ float peso,peso_restante;
 void _initProveedor()
 {
 	pthread_create(&prov,NULL,_Proveedor,NULL);
+}
+
+void join_proveedor()
+{
 	pthread_join(prov,NULL);
 }
 
@@ -100,7 +104,7 @@ void _prepararCamion()
 	aceptado = true;
 	//_postConExito(); //AQUI
 	_postValidezPedido();
-	
+
 	printf("Proveedor: Gestionando pedido\n");
   _llenarCamiones();
 	camiones = true;
@@ -118,7 +122,7 @@ void _prepararCamion()
 		if(_estadoCamion(i))
 		{
 			sem_post(&Camion[i]);
-			if(peso < VecPeso[i])                               
+			if(peso < VecPeso[i])
 				printf("Proveedor: Se envio camion Nro: %d con %f \n",i+1,peso);
 			else
 				printf("Proveedor: Se envio camion Nro: %d con %f \n",i+1,VecPeso[i]);
@@ -156,7 +160,7 @@ void _listaRechazada()
 	printf("Proveedor: Disponible para otro pedido valido\n"); //AQUI
 	_postComprador();
 	_cerrarPedido();
-	
+
 }
 
 // Llena los camiones con el pedido
@@ -180,5 +184,5 @@ int _edoCamion(int c) {return estadoCamion(c);}
 void _estadoC(int c, int valor) {estado[c]=valor;}
 void _waitCamion(int c) {sem_wait(&Camion[c]);}
 float _rubrosTotal(int id) {rubros[i].pedido;}
-int _llenanCamiones(){return camiones;}
+int _llenanCamiones() {return camiones;}
 #endif

@@ -68,6 +68,7 @@ static void * servicioTecnico(void *data)
 			cuando se cierre el mercado
 		*/
 		sem_wait(&estado);
+		
 			printf(" -------------- \n");
 			/* Si no hay luz.. */
 			if (!luz)

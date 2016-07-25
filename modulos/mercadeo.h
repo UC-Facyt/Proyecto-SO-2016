@@ -16,26 +16,40 @@
 
 /*****************************/ 
 
-static sem_t estado;
+static sem_t estado, done;
 
 pthread_t merc;
 
-void* init_MERCADEO() {
+void init_MERCADEO() {
 
+	sem_init(&estado, 0, 0);
+	sem_init(&done, 0, 1);
 	pthread_create(&merc, NULL, departamentoMercadeo, NULL);
+}
 
+void join_MERCADEO() {
+	pthread_join(merc, NULL);
+}
+
+void despertarMercadeo() {
+	sem_post(&estado);
+	sem_wait(&done);
 }
 
 static void* departamentoMercadeo(void *data) {
 
 	while(TRUE) {
 
-		/* Monkeys making coffee 	*/
-		/* until the days end    	*/
-		/* Make the day report 		*/
+		sem_wait(&estado);
+		
+			/* Monkeys making coffee 	*/
+			/* until the days end    	*/
+			/* Make the day report 		*/
 
-		/* If is the last week day 	*/
-		/* make the week report 	*/
+			/* If is the last week day 	*/
+			/* make the week report 	*/
+
+		sem_post(&done);
 	}
 }
 

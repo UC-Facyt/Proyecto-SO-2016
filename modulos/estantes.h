@@ -31,7 +31,7 @@ void Activar_Reponedores(int est);
 static void * _Reponedor( void *args);
 
 //ESTRUCTURA PARA LOS 9 ANAQUELES
-static float anaqueles[9]={10,10,10,10,10,10,10,10,10};
+static float anaqueles[10]={10,10,10,10,10,10,10,10,10};
 
 //HILOS PARA LOS 4 PROCESOS
 static pthread_t t1, t2, t3, t4;

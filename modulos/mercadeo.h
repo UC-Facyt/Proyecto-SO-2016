@@ -1,12 +1,17 @@
 #ifndef MERCADEO_H
 #define MERCADEO_H
+
 #include "cajeras.h"
 #include "servicio_tecnico.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-#define N 		1000
+#define MAX_P 	1000
+#define MAX_C 	6
+#define MAX_D 	7
+
 #define TRUE 	1
 #define FALSE	0
 
@@ -16,6 +21,7 @@
 
 /*****************************/ 
 
+/* Estructura de un producto */
 typedef struct {
 	int id;
 	int cant;
@@ -23,18 +29,24 @@ typedef struct {
 	float prob;
 } product_merc;
 
+/* Registro de los productos por caja */
+typedef struct {
+	product_merc ventas[MAX_P];
+} cajera_merc;
+
+/* Estructura de un reporte */
 typedef struct {
 	int cant_produc;
 	int id_mas_vendido;
 	int id_menos_vendido;
-	int fallo_elec;
+	int cant_mas_vendido;
+	int cant_menos_vendido;
+	int fallo_elec;				
+	cajera_merc caja[MAX_C];
 } report_merc;
 
-typedef struct {
-	product_merc ventas[N];
-} cajera_merc;
-
-static report_merc[8] reports;
+static int dia = 0;					/* Dia de la semana 			*/
+static report_merc[MAX_D] reports;	/* Arreglo de reportes diarios 	*/
 
 static pthread_t merc;
 static sem_t estado, done;
@@ -42,7 +54,7 @@ static sem_t estado, done;
 void init_MERCADEO() {
 
 	sem_init(&estado, 0, 0);
-	sem_init(&done, 0, 1);
+	sem_init(&done, 0, 0);
 	pthread_create(&merc, NULL, departamentoMercadeo, NULL);
 }
 
@@ -69,13 +81,59 @@ static void* departamentoMercadeo(void *data) {
 			/* If is the last week day 	*/
 			/* make the week report 	*/
 		sem_post(&done);
+
+		/* Verifica si es el ultimo dia */
+		dia += (dia == 6) ? 1 : -6;
 	}
 }
 
 /* Registra datos del cajero */
-void registro(int prod, float cant, int id_cajera) {
+void registro(int prod, float cant, int id_caja) {
 
+	int i, cant_m, cant_p;
+	int cant_prod, max, min;
+
+	/* Deberia ser int cant */
+	cant_prod = (reports[dia].caja[id_caja].ventas[prod].cant += (int) cant);
 	
+	/* 3 y 4 son cajas de productos regulados */
+	if (id_caja == 3 || id_caja == 4) {
+		reports[dia].caja[id_caja].ventas[prod].regulado = TRUE;
+	}
+
+	max = reports[dia].id_mas_vendido;
+	min = reports[dia].id_menos_vendido;
+
+	for(i=0, cant_p; i < MAX_C; i++) {
+		cant_p += reports[dia].caja[i].ventas[prod];
+	}
+
+	for(i=0, acum = 0; i < MAX_C; i++) {
+		acum += reports[dia].caja[i].ventas[max];
+	}
+
+	if(acum )
+	reports[id].id_mas_vendido 
+
+	for(i=0; acum = 0; i < MAX_C; i++) {
+		acum += reports[dia].caja[i].ventas[min];
+	}
+
+	if(reports[dia].caja[])
+	if(reports[dia].id_mas_vendido > reports[dia].caja[id_caja].ventas[prod].cant) {
+
+	}
+
+	int id;
+	int cant;
+	int regulado;
+	float prob;
+
+	int cant_produc;
+	int id_mas_vendido;
+	int id_menos_vendido;
+	int fallo_elec;				
+	cajera_merc caja[MAX_C];
 }
 
 /*****************************/ 

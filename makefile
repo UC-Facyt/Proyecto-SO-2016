@@ -1,13 +1,14 @@
 # Makefile del Proyecto de Sistemas Operativos
 
 CC = gcc
-FLAGS = -Wall -Wextra -lpthread
+FLAGS = -lpthread
 
 # Test
 DIR = bin
-BIN = $(DIR)/test
+BIN = $(DIR)/main
 
-all:	test
+all:	main.c
+	$(CC) $< -o $(BIN) $(FLAGS)
 	@echo "Done."
 
 test:	test.c
@@ -19,5 +20,5 @@ clean:
 	@echo "Borrado!"
 
 love:
-	@echo "Not Warcraft?"
+	@echo "Not War?"
 	

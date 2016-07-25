@@ -108,13 +108,13 @@ void init_cajeras( int n_cat, float lim_nor, float lim_reg )
 
     srand( time(NULL) );
 
-    pthread_create( &normal1,   NULL,  caja_normal,    &vect[0] );
-    pthread_create( &normal2,   NULL,  caja_normal,    &vect[1] );
-    pthread_create( &normal3,   NULL,  caja_normal,    &vect[2] );
-    pthread_create( &regulado1, NULL,  caja_regulados, &vect[3] );
-    pthread_create( &regulado2, NULL,  caja_regulados, &vect[4] );
-    pthread_create( &pref,      NULL,  caja_pref,      &vect[5] );
-    pthread_create( &especial,  NULL,  caja_especial,  &vect[6] );
+    pthread_create( &normal1,   NULL,  caja_normal,    (void*) &vect[0] );
+    pthread_create( &normal2,   NULL,  caja_normal,    (void*) &vect[1] );
+    pthread_create( &normal3,   NULL,  caja_normal,    (void*) &vect[2] );
+    pthread_create( &regulado1, NULL,  caja_regulados, (void*) &vect[3] );
+    pthread_create( &regulado2, NULL,  caja_regulados, (void*) &vect[4] );
+    pthread_create( &pref,      NULL,  caja_pref,      (void*) &vect[5] );
+    pthread_create( &especial,  NULL,  caja_especial,  (void*) &vect[6] );
 
     printf("Inicializacion correcta del modulo Cajeras \n");
 }

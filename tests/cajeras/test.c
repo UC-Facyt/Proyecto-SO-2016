@@ -22,7 +22,6 @@ int main() {
     // Inicializando modulo
     init_cajeras(5, 5, 5);
 
-    apagar_mitad_cajas();
     // encender_mitad_cajas();
 
     pthread_create( &clientes_aleatorios, NULL, cliente_aleatorio, NULL);
@@ -37,12 +36,7 @@ int main() {
 
 static void* cliente_aleatorio(void *arg)
 {
-    // int i;
-    // for (i = 0; i < 10; i++) {
-    //     // printf("CLIENTE NORMAL \n");
-    //     inc_cola_normal();
-    // }
-
+    int oneShot = 1;
     while (1)
     {
         // printf(" -------------- \n");
@@ -61,6 +55,12 @@ static void* cliente_aleatorio(void *arg)
             break;
         default:
             break;
+        }
+
+        if ( oneShot ) {
+            // cerrar_cajas();
+            // abrir_cajas();
+            oneShot = 0;
         }
     }
 }

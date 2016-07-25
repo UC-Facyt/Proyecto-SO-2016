@@ -26,6 +26,7 @@ int main() //Loop principal
 			sem_post(&data.fallo_de_energia);
 	    	}
 	    	sleep(1);
+			sem_wait( &func[1] );
     	}
     sleep(5);
     return 0;
@@ -39,4 +40,3 @@ void* servicioTecnico(void * data){
         	printf("Hubo un fallo de energia!\n");
 	}
 }
-

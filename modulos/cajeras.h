@@ -59,7 +59,7 @@ static pthread_t especial;
 volatile static int N_CAT, LIM_NOR, LIM_REG;
 
 static sem_t clientes_pref, clientes_reg, clientes_normal, dar_clave, pedir_clave;
-static sem_t func[7];
+sem_t func[7], permiso_normal;
 static int vect[7], index;
 
 /*PROCEDIMIENTOS DE CAJERAS*/
@@ -103,6 +103,8 @@ void init_cajeras( int n_cat, float lim_nor, float lim_reg )
     sem_init( &clientes_normal, 0, 0 );
     sem_init( &dar_clave, 0, 0 );
     sem_init( &pedir_clave, 0, 0 );
+
+    sem_init( &permiso_normal, 0, 1 );
 
     srand( time(NULL) );
 
@@ -149,9 +151,20 @@ void inc_cola_pref()
 void apagar_mitad_cajas()
 {
     printf("Apagandooo \n");
-    
+
+    int value, i;
+    for (i = 0; i < 3; i++) {
+        sem_getvalue(&func[i], &value);
+        printf("Valor semaforo %d = %d\n", i, value);
+    }
+
+
     sem_wait( &func[0] );
+
     printf("Apagando 1\n ");
+
+
+
     sem_wait( &func[1] );
     sem_wait( &func[2] );
     printf("Semaforitos Apagados \n");
@@ -204,30 +217,28 @@ static void *caja_normal( void *arg )
     while(1)
     {
         sem_wait( &func[i] );
-
-        prod = rand()%(N_CAT) + 1;
-        cant = rand()%(LIM_NOR) + 1;
-
-        if ( !es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
-        {
             sem_wait( &clientes_normal );
-            printf("-- -- Venta en caja normal %d \n", i);
-            // sleep(1);
-            registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
-            nclientes++;
-        }
+            prod = rand()%(N_CAT) + 1;
+            cant = rand()%(LIM_NOR) + 1;
 
-        if( nclientes == 15 )
-        {
-            sem_post(&pedir_clave);
-            printf("Bloquea en caja  normal %d\n", i );
-            // sleep(1);
-            sem_wait(&dar_clave);
-            printf("Desbloquea en caja normal %d\n", i );
-            // sleep(1);
-            nclientes = 0;
-        }
+            if ( !es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
+            {
+                printf("-- -- Venta en caja normal %d \n", i);
+                // sleep(1);
+                registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
+                nclientes++;
+            }
 
+            if( nclientes == 15 )
+            {
+                sem_post(&pedir_clave);
+                printf("Bloquea en caja  normal %d\n", i );
+                // sleep(1);
+                sem_wait(&dar_clave);
+                printf("Desbloquea en caja normal %d\n", i );
+                // sleep(1);
+                nclientes = 0;
+            }
         sem_post( &func[i] );
     }
 }
@@ -242,30 +253,28 @@ static void *caja_regulados( void *arg )
     while(1)
     {
         sem_wait( &func[i] );
-
-        prod = rand()%(N_CAT) + 1;
-        cant = rand()%(LIM_REG) + 1;
-
-        if( es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
-        {
-
             sem_wait( &clientes_reg );
-            printf("Venta en caja regulado %d\n", i );
-            // sleep(1);
-            registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
-            nclientes++;
-        }
+            prod = rand()%(N_CAT) + 1;
+            cant = rand()%(LIM_REG) + 1;
 
-        if( nclientes == 15 )
-        {
-            sem_post(&pedir_clave);
-            printf("Bloquea en caja regulado %d\n", i );
-            // sleep(1);
-            sem_wait(&dar_clave);
-            printf("Desbloquea en caja regulado %d\n", i );
-            // sleep(1);
-            nclientes = 0;
-        }
+            if( es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
+            {
+                printf("Venta en caja regulado %d\n", i );
+                // sleep(1);
+                registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/
+                nclientes++;
+            }
+
+            if( nclientes == 15 )
+            {
+                sem_post(&pedir_clave);
+                printf("Bloquea en caja regulado %d\n", i );
+                // sleep(1);
+                sem_wait(&dar_clave);
+                printf("Desbloquea en caja regulado %d\n", i );
+                // sleep(1);
+                nclientes = 0;
+            }
 
         sem_post( &func[i] );
     }
@@ -281,13 +290,13 @@ static void *caja_pref( void *arg )
     while(1)
     {
         sem_wait( &func[i] );
-
+            sem_wait( &clientes_pref );
             prod = rand()%(N_CAT) + 1;
             cant = rand()%(LIM_NOR) + 1;
 
             if( !es_regulado( prod ) /*MODULO SUPERVISOR*/ && vender( prod, cant ) /*MODULO REPONEDORES*/ )
             {
-                sem_wait( &clientes_pref );
+
                 printf("Venta en caja Pref\n");
                 // sleep(1);
                 registrar( prod, cant, i );/*MODULO SERVICIO TECNICO*/

@@ -4,7 +4,7 @@
 #include <semaphore.h>
 
 
-int vender( int prod, int cant )
+int vender( int prod, float cant )
 {
     return rand() % 2;
 }

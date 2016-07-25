@@ -44,10 +44,10 @@ int Estado=0;
 int uno=1,dos=2,tres=3,cuatro=4;
 void init_estantes(){
 	
-	pthread_create(&h, NULL, _Reponedor,&uno);
-	pthread_create(&i, NULL, _Reponedor,&dos);
-	pthread_create(&j, NULL, _Reponedor,&tres);
-	pthread_create(&k, NULL, _Reponedor,&cuatro);
+	pthread_create(&h, NULL, _Reponedor,(void *)&uno);
+	pthread_create(&i, NULL, _Reponedor,(void *)&dos);
+	pthread_create(&j, NULL, _Reponedor,(void *)&tres);
+	pthread_create(&k, NULL, _Reponedor,(void *)&cuatro);
 }
 
 void join_estantes(){
